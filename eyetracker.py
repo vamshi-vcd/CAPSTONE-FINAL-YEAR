@@ -7,8 +7,6 @@
 import cv2
 import mediapipe as mp
 import os
-os.environ['DISPLAY'] = ':0.0'
-
 
 import pyautogui
 
