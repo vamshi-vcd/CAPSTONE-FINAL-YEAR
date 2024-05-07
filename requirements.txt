@@ -2,5 +2,5 @@ mediaPipe
 pyautogui
 streamlit
 numpy
-opencv-python-headless==4.9.0.80
+opencv-python-headless==4.5.5.64
 Pillow
