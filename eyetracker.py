@@ -6,7 +6,12 @@
 
 import cv2
 import mediapipe as mp
+import os
+os.environ['DISPLAY'] = ':0.0'
+
+
 import pyautogui
+
 
 cam = cv2.VideoCapture(0)
 face_mesh = mp.solutions.face_mesh.FaceMesh(refine_landmarks=True)
