@@ -1,5 +1,5 @@
 mediaPipe
 pyautogui
 streamlit
-numpy==1.18.5
+numpy
 opencv-python-headless
