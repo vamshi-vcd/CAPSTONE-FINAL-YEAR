@@ -2,5 +2,4 @@ OpenCV
 MediaPipe
 PyAutoGUI
 Streamlit
-NBFormat
-NBConvert
+
