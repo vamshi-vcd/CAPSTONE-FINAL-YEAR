@@ -5,6 +5,7 @@
 
 import cv2
 import mediapipe as mp
+from PIL import image
 import numpy as np
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
