@@ -3,4 +3,5 @@ PyAutoGUI
 Streamlit
 opencv-python
 opencv-python-headless==4.5.1.48
-numpy==1.26.4
+numpy
+pandas
