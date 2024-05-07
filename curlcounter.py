@@ -3,7 +3,7 @@
 
 # In[1]:
 
-import SimpleCV
+import cv2
 import mediapipe as mp
 import numpy as np
 mp_drawing = mp.solutions.drawing_utils
@@ -34,7 +34,7 @@ mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 
 # Capture video
-cap = SimpleCV.VideoCapture(0)
+cap = cv2.VideoCapture(0)
 
 # Curl counter variables
 counter = 0 
@@ -46,7 +46,7 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
         ret, frame = cap.read()
         
         # Recolor image to RGB
-        image = SimpleCV.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         image.flags.writeable = False
       
         # Make detection
@@ -54,7 +54,7 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
     
         # Recolor back to BGR
         image.flags.writeable = True
-        image = SimpleCV.cvtColor(image, cv2.COLOR_RGB2BGR)
+        image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
         
         # Extract landmarks
         try:
@@ -69,7 +69,7 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
             angle = calculate_angle(shoulder, elbow, wrist)
             
             # Visualize angle
-            SimpleCV.putText(image, str(angle), 
+            cv2.putText(image, str(angle), 
                            tuple(np.multiply(elbow, [640, 480]).astype(int)), 
                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA
                                 )
@@ -87,19 +87,19 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
         
         # Render curl counter
         # Setup status box
-        SimpleCV.rectangle(image, (0,0), (225,73), (245,117,16), -1)
+        cv2.rectangle(image, (0,0), (225,73), (245,117,16), -1)
         
         # Rep data
-        SimpleCV.putText(image, 'REPS', (15,12), 
+        cv2.putText(image, 'REPS', (15,12), 
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,0), 1, cv2.LINE_AA)
-        SimpleCV.putText(image, str(counter), 
+        cv2.putText(image, str(counter), 
                     (10,60), 
                     SimpleCV.FONT_HERSHEY_SIMPLEX, 2, (255,255,255), 2, cv2.LINE_AA)
         
         # Stage data
-        SimpleCV.putText(image, 'STAGE', (65,12), 
+        cv2.putText(image, 'STAGE', (65,12), 
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,0), 1, cv2.LINE_AA)
-        SimpleCV.putText(image, str(stage), 
+        cv2.putText(image, str(stage), 
                     (60,60), 
                     cv2.FONT_HERSHEY_SIMPLEX, 2, (255,255,255), 2, cv2.LINE_AA)
         
@@ -110,7 +110,7 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
                                 mp_drawing.DrawingSpec(color=(245,66,230), thickness=2, circle_radius=2) 
                                  )               
         
-        SimpleCV.imshow('Mediapipe Feed', image)
+        cv2.imshow('Mediapipe Feed', image)
 
         if cSimpleCV.waitKey(10) & 0xFF == ord('q'):
             break
