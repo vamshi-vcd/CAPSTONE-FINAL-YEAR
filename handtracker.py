@@ -6,6 +6,10 @@
 
 import cv2
 import mediapipe as mp
+import os
+# Set a dummy value for the 'DISPLAY' environment variable
+os.environ['DISPLAY'] = ':0.0'
+
 import pyautogui
 
 cap = cv2.VideoCapture(0)
