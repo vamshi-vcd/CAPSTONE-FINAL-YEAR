@@ -1,7 +1,5 @@
-OpenCV
 MediaPipe
 PyAutoGUI
 Streamlit
 opencv-python
-cv2
-opencv-python
+
