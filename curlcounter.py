@@ -10,14 +10,6 @@ import numpy as np
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 
-
-# In[2]:
-
-
-import cv2
-import mediapipe as mp
-import numpy as np
-
 # Function to calculate angle
 def calculate_angle(a, b, c):
     a = np.array(a)
