@@ -2,6 +2,5 @@ OpenCV
 MediaPipe
 PyAutoGUI
 Streamlit
-nbformat==5.1.3
 
 
