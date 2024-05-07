@@ -2,4 +2,4 @@ MediaPipe
 PyAutoGUI
 Streamlit
 numpy
-opencv-python-headless
+opencv-contrib-python
