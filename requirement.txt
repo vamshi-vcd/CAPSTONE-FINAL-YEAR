@@ -2,4 +2,5 @@ OpenCV
 MediaPipe
 PyAutoGUI
 Streamlit
+nbformat
 
