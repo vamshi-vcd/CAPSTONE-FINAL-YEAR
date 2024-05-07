@@ -1,5 +1,5 @@
 MediaPipe
 PyAutoGUI
 Streamlit
-opencv-python
 numpy
+opencv-python
