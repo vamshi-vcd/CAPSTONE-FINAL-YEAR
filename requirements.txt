@@ -2,3 +2,4 @@ MediaPipe
 PyAutoGUI
 Streamlit
 opencv-python
+
