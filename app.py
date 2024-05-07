@@ -22,19 +22,11 @@ def main():
     st.title('MULTIMODAL FUSION TO ENHANCE HUMAN COMPUTER INTERACTION')
 
     # File paths of Python script files
-    curlcounter_file = "curlcounter.py"
     eyetracker_file = "eyetracker.py"
     handtracker_file = "handtracker.py"
 
     # Align buttons at the center
     st.write("<div style='text-align: center;'>", unsafe_allow_html=True)
-
-    # Button to execute curlcounter.py
-    st.markdown("<h3><b>Run Curl Counter</b></h3>", unsafe_allow_html=True)
-    if st.button('Click here to open Virtual Gym Assistant', key="curlcounter"):
-        st.write("### Opening Curl Counter")
-        output_curlcounter = execute_script(curlcounter_file)
-        st.code(output_curlcounter, language='python')
 
     # Button to execute eye_tracker.py
     st.markdown("<h3><b>Run Eye Tracker</b></h3>", unsafe_allow_html=True)
