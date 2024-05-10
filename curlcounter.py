@@ -35,7 +35,7 @@ mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 
 # Capture video
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 
 # Curl counter variables
 counter = 0 
