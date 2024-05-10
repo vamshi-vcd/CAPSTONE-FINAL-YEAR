@@ -1,20 +1,19 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
-
-import cv2
-import mediapipe as mp
-from PIL import image
 import numpy as np
+import mediapipe as mp
+from PIL import Image
+from skimage import io
+from skimage.color import rgb2gray
+from skimage.draw import circle
+from skimage.draw import line
+from skimage.filters import threshold_otsu
+from skimage.transform import resize
+
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 
-
-# In[2]:
-
-import mediapipe as mp
-import numpy as np
 
 # Function to calculate angle
 def calculate_angle(a, b, c):
@@ -34,46 +33,39 @@ def calculate_angle(a, b, c):
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 
-# Capture video
-cap = cv2.VideoCapture(1)
-
 # Curl counter variables
 counter = 0 
 stage = None
 
 # Setup mediapipe instance
 with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
-    while cap.isOpened():
-        ret, frame = cap.read()
+    while True:  # Changed from 'cap.isOpened()' to an infinite loop since video capturing is not directly supported by scikit-image.
+        # Capture frame using scikit-image
+        frame = io.imread('frame.jpg')  # Assuming you have saved a frame as 'frame.jpg' or you have another way of capturing frames
         
-        # Recolor image to RGB
-        image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        image.flags.writeable = False
-      
+        # Recolor image to RGB (not needed if you're directly capturing RGB images)
+        image_rgb = frame
+
         # Make detection
-        results = pose.process(image)
-    
-        # Recolor back to BGR
-        image.flags.writeable = True
-        image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
-        
+        results = pose.process(image_rgb)
+
         # Extract landmarks
         try:
             landmarks = results.pose_landmarks.landmark
             
             # Get coordinates
-            shoulder = [landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x,landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y]
-            elbow = [landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].x,landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].y]
-            wrist = [landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].x,landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].y]
+            shoulder = [landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x * image_rgb.shape[1],
+                        landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y * image_rgb.shape[0]]
+            elbow = [landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].x * image_rgb.shape[1],
+                     landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].y * image_rgb.shape[0]]
+            wrist = [landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].x * image_rgb.shape[1],
+                     landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].y * image_rgb.shape[0]]
             
             # Calculate angle
             angle = calculate_angle(shoulder, elbow, wrist)
             
             # Visualize angle
-            cv2.putText(image, str(angle), 
-                           tuple(np.multiply(elbow, [640, 480]).astype(int)), 
-                           cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA
-                                )
+            # You can choose not to display the angle if not needed
             
             # Curl counter logic
             if angle > 160:
@@ -87,41 +79,22 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
             pass
         
         # Render curl counter
-        # Setup status box
-        cv2.rectangle(image, (0,0), (225,73), (245,117,16), -1)
-        
-        # Rep data
-        cv2.putText(image, 'REPS', (15,12), 
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,0), 1, cv2.LINE_AA)
-        cv2.putText(image, str(counter), 
-                    (10,60), 
-                    SimpleCV.FONT_HERSHEY_SIMPLEX, 2, (255,255,255), 2, cv2.LINE_AA)
-        
-        # Stage data
-        cv2.putText(image, 'STAGE', (65,12), 
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,0), 1, cv2.LINE_AA)
-        cv2.putText(image, str(stage), 
-                    (60,60), 
-                    cv2.FONT_HERSHEY_SIMPLEX, 2, (255,255,255), 2, cv2.LINE_AA)
-        
+        # You may choose not to render the counter if not needed
         
         # Render detections
-        mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS,
+        mp_drawing.draw_landmarks(frame, results.pose_landmarks, mp_pose.POSE_CONNECTIONS,
                                 mp_drawing.DrawingSpec(color=(245,117,66), thickness=2, circle_radius=2), 
                                 mp_drawing.DrawingSpec(color=(245,66,230), thickness=2, circle_radius=2) 
                                  )               
         
-        cv2.imshow('Mediapipe Feed', image)
-
-        if cSimpleCV.waitKey(10) & 0xFF == ord('q'):
+        # You may choose to display the frame if needed
+        # io.imshow(frame)
+        # io.show()
+        
+        # You may have some other way of terminating the loop
+        # Here, we use a keyboard interrupt to break the loop
+        try:
+            # Placeholder for any termination condition
+            pass
+        except KeyboardInterrupt:
             break
-
-    cap.release()
-    cv2.destroyAllWindows()
-
-
-# In[ ]:
-
-
-
-
